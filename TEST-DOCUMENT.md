@@ -36,7 +36,7 @@ First, I wrote an RT validation script that runs pre and post maintenance. It pu
 
 Second, any commit touching VRF policy now requires the engineer to explicitly state the RT values in the change ticket. Not a checkbox, but actually writing out "RT export: 400146:100, RT import: 400146:100" so someone reviewing can verify they match.
 
-Juniper's documentation doesn't warn about this failure mode, which is frustrating. Ours does now.
+Juniper's documentation doesn't mention this failure mode. We added it to our internal wiki after this incident.
 
 ---
 

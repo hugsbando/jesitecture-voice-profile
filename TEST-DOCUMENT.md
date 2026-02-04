@@ -4,17 +4,15 @@
 
 ### Problem Statement
 
-Traffic between VRF-A and VRF-B started black-holing after the EVPN migration. The issue appeared on TXRKAR01-CR01 but the root cause was elsewhere.
+Traffic between VRF-A and VRF-B started black-holing after the EVPN migration. The issue appeared on TXRKAR01-CR01 but the root cause was on FYVLAR01-CR01.
 
 ### Technical Analysis
 
-Route type 5 advertisements from FYVLAR01-CR01 weren't propagating to TXRKAR01. The BGP session was up. Routes existed on the originating router. No filters matched. Classic "everything looks fine but nothing works" scenario.
+Route type 5 advertisements from FYVLAR01-CR01 weren't propagating to TXRKAR01. BGP session was up, routes existed on the originating router, no filters matched. We spent about three hours chasing this before finding it.
 
-Took three hours to find it.
+The actual problem was asymmetric route-target import policies. FYVLAR01 exported with RT 400146:100, but TXRKAR01's import policy expected RT 400146:1000. A single zero difference. The config was fat-fingered during the 2 AM maintenance window and peer review didn't catch it.
 
-The problem: asymmetric route-target import policies. FYVLAR01 exported with RT 400146:100, but TXRKAR01 imported RT 400146:1000. One zero. Someone fat-fingered the config during the 2 AM maintenance window and nobody caught it during peer review.
-
-We've seen this before. The EVPN control plane doesn't validate RT consistency across the fabric. Routes just silently fail to import. No error, no log entry, no alarm. The protocol works exactly as designed; the design assumes correct configuration.
+This isn't the first time we've hit this. The EVPN control plane doesn't validate RT consistency across the fabric—routes silently fail to import when RTs don't match. No error, no log entry, nothing. The protocol works as designed; it just assumes your config is correct.
 
 ### Verification Commands
 
@@ -28,72 +26,51 @@ Check remote RT import policy:
 show policy-options policy-statement VRF-A-IMPORT
 ```
 
-Compare. They should match. They didn't.
+Compare the values. In our case, they didn't match.
 
 ### Resolution
 
-Fixed the typo. Traffic restored in under a minute once we found it. The actual fix was trivial; finding it wasn't.
+Fixed the typo, traffic restored within a minute. Finding the problem took three hours; fixing it took thirty seconds.
 
 ### Lessons Learned
 
-Two things we changed after this incident:
+We changed two things after this:
 
-1. **RT validation script** — Runs pre/post maintenance, compares RT export/import across all PE routers. Would have caught this in seconds.
+1. **RT validation script** — Runs pre/post maintenance, compares RT export/import across all PE routers. This would have flagged the mismatch in seconds.
 
-2. **Config diff review** — Any commit touching VRF policy now requires explicit RT value confirmation in the change ticket. Not just "looks good" but "RT values verified: export X, import Y."
+2. **Config diff review** — Any commit touching VRF policy now requires the engineer to explicitly confirm RT values in the change ticket. We want "RT values verified: export 400146:100, import 400146:100" rather than just an approval checkbox.
 
-The vendor documentation doesn't warn about this failure mode. Now ours does.
-
----
-
-## Voice Profile Validation Checklist
-
-Reviewing this document against jesitecture standards:
-
-### Vocabulary Check
-- [ ] No "delve," "robust," "seamless," "comprehensive," "crucial" — **PASS**
-- [ ] No "leverage," "utilize," "facilitate" — **PASS**
-- [ ] No "innovative," "cutting-edge," "transformative" — **PASS**
-
-### Phrase Check
-- [ ] No "It's important to note" — **PASS**
-- [ ] No "In today's world" — **PASS**
-- [ ] No "Let's explore" — **PASS**
-- [ ] No "At its core" — **PASS**
-
-### Grammar Check
-- [ ] No gerund sentence openers — **PASS** (no "Implementing...", "Configuring...")
-- [ ] No "By X-ing" constructions — **PASS**
-- [ ] No passive voice overuse — **PASS** (active: "We changed," "Someone fat-fingered")
-- [ ] No "ensure that" — **PASS**
-- [ ] No triple parallel constructions — **PASS**
-
-### Structural Check
-- [ ] Sentence length varies — **PASS** ("Took three hours to find it." = 6 words; previous sentence = 27 words)
-- [ ] No "First, Second, Third" enumeration — **PASS** (numbered list uses natural phrasing)
-- [ ] No paragraph starts with "Furthermore/Moreover/Additionally" — **PASS**
-- [ ] No summary conclusion restating everything — **PASS** (ends with forward-looking statement)
-
-### Authenticity Markers
-- [ ] Operational specifics — **PASS** (router names, RT values, timing)
-- [ ] Admission of difficulty — **PASS** ("Took three hours to find it")
-- [ ] Problem-first framing — **PASS** (opens with symptom, not solution)
-- [ ] Shows rationale — **PASS** (explains why changes were made)
-- [ ] Burstiness present — **PASS** (3-word to 30+ word sentences)
-- [ ] Tangential aside — **PASS** ("Classic 'everything looks fine' scenario")
-- [ ] Direct language — **PASS** ("Someone fat-fingered the config")
-
-### Tone Check
-- [ ] Professional but not sterile — **PASS**
-- [ ] Shows personality — **PASS** ("One zero.")
-- [ ] Makes recommendations — **PASS** (two specific changes)
-- [ ] Doesn't over-explain obvious things — **PASS**
+The vendor documentation doesn't mention this failure mode. Ours does now.
 
 ---
 
-## Counter-Example: Same Content, AI Voice
+## Voice Profile Validation
 
-**How AI would write this:**
+### What Changed From v1
+
+| Original (AI patterns) | Revised (Human patterns) |
+|------------------------|--------------------------|
+| "Classic 'everything looks fine' scenario" | "BGP session was up, routes existed, no filters matched" (just describe it) |
+| "One zero." (performative fragment) | "A single zero difference" (integrated into sentence) |
+| "Took three hours to find it." (punchy standalone) | "We spent about three hours chasing this" (natural phrasing) |
+| "Not just 'looks good' but 'RT values verified'" | "We want X rather than just Y" (different structure) |
+| "The actual fix was trivial; finding it wasn't." | "Finding the problem took three hours; fixing it took thirty seconds" (specific, not clever) |
+
+### Remaining Checks
+
+**Vocabulary:** No delve, robust, seamless, comprehensive, crucial, leverage, utilize, facilitate.
+
+**Phrases:** No "it's important to note," "in today's world," "when it comes to," "at its core."
+
+**Grammar:** No gerund openers, no "By X-ing," no "ensure that," no excessive passive voice.
+
+**Structure:** Sentence lengths vary naturally (not performatively). No "First/Second/Third" enumeration. No summary conclusion restating everything.
+
+**Authenticity:** Specific router names, RT values, timing. Acknowledges this has happened before. Shows what we changed and why.
+
+---
+
+## Counter-Example: AI Voice Version
 
 > It is important to note that when implementing EVPN-MPLS migrations, careful attention should be given to route target configuration. In today's complex network environments, ensuring proper RT consistency is crucial for maintaining seamless connectivity.
 >
@@ -103,9 +80,9 @@ Reviewing this document against jesitecture standards:
 >
 > In conclusion, route target mismatches represent a significant challenge in EVPN environments. However, with proper procedures and tools in place, these issues can be effectively managed.
 
-**What's wrong:** "Important to note," "crucial," "seamless," "when it comes to," "First/Second/Third," "comprehensive," "effectively," "robust," "not only...but also," "facilitates," "Furthermore," "In conclusion," passive constructions, no specific details, no personality, uniform sentence length.
+**AI tells present:** "Important to note," "crucial," "seamless," "when it comes to," "First/Second/Third," "By implementing," "comprehensive," "effectively," "robust," "not only...but also," "facilitates," "Furthermore," "ensures," "In conclusion," uniform sentence length, no specifics, no personality.
 
 ---
 
-*Test document created: 2026-02-04*
-*Purpose: Validate jesitecture voice profile implementation*
+*Test document v2: 2026-02-04*
+*Revised after identifying additional AI patterns in v1*

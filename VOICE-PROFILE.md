@@ -220,9 +220,43 @@ Use RFC keywords when precision matters. Apply throughout requirements sections.
 | Pattern | Example | Problem |
 |---------|---------|---------|
 | "Not only X but also Y" | "Not only improves performance but also reduces cost" | AI uses 5x human rate |
+| "Not just X but Y" | "Not just 'looks good' but 'verified correct'" | Same pattern, different words |
 | "Whether X or Y" | "Whether you're a beginner or expert..." | Marketing-speak feel |
 | "Both X and Y" (repeated) | "Both reliable and scalable, both fast and secure" | Stacking these is AI signature |
 | Triple parallel | "Faster, simpler, and more reliable" | Rule of three overuse |
+| "Classic [quoted scenario]" | "Classic 'works on my machine' situation" | AI framing device |
+| "The old [quoted phrase]" | "The old 'have you tried rebooting' advice" | Same pattern |
+
+**Performative Short Sentences — AVOID:**
+
+AI overcorrects for burstiness by inserting artificially punchy fragments:
+
+| AI Pattern | Problem |
+|------------|---------|
+| "One word." or "Two words." as standalone | Feels like a writing exercise |
+| Sentence fragment after long sentence | Too deliberate, performative |
+| Multiple ultra-short sentences in sequence | Unnatural staccato rhythm |
+
+**Human short sentences** emerge from context, not from trying to vary length. They're usually responses, reactions, or emphasis—not decorative.
+
+### The Performative Test (CRITICAL)
+
+**Core principle:** If a writing choice feels like it's *demonstrating* good writing rather than *communicating*, cut it.
+
+**Performative patterns to eliminate:**
+
+| Pattern | Why It Fails |
+|---------|--------------|
+| Clever sentence fragments for rhythm | Reader senses the craft, not the content |
+| Dramatic one-word paragraphs | Feels like a creative writing exercise |
+| Overly varied sentence structure | Variation should serve clarity, not display |
+| "Punchy" endings | Trying too hard to land |
+| Quotation framing ("the old X") | Meta-commentary on the phrase itself |
+| Parallel structure for rhetorical effect | Speechwriting, not technical docs |
+
+**The test:** Read the sentence aloud. Does it sound like you're *saying something* or *writing something*? Technical documentation should sound like the former.
+
+**Human writing is functional.** Sentence length varies because some ideas need more words than others—not because the writer is proving they know how to vary sentence length.
 
 **Hedging Constructions — AVOID (unless genuine uncertainty):**
 

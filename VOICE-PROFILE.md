@@ -221,11 +221,24 @@ Use RFC keywords when precision matters. Apply throughout requirements sections.
 |---------|---------|---------|
 | "Not only X but also Y" | "Not only improves performance but also reduces cost" | AI uses 5x human rate |
 | "Not just X but Y" | "Not just 'looks good' but 'verified correct'" | Same pattern, different words |
+| "It's not about X, it's about Y" | "It's not about the destination; it's about the journey" | False dichotomy framing |
+| "No X. No Y. Just Z." | "No fluff. No filler. Just actionable insights." | Formulaic pseudo-minimalism |
+| "From X to Y" | "From novice to expert: A complete guide" | Transformation template |
 | "Whether X or Y" | "Whether you're a beginner or expert..." | Marketing-speak feel |
 | "Both X and Y" (repeated) | "Both reliable and scalable, both fast and secure" | Stacking these is AI signature |
 | Triple parallel | "Faster, simpler, and more reliable" | Rule of three overuse |
 | "Classic [quoted scenario]" | "Classic 'works on my machine' situation" | AI framing device |
 | "The old [quoted phrase]" | "The old 'have you tried rebooting' advice" | Same pattern |
+
+**Natural Comparison Alternatives:**
+
+| AI Pattern | Human Alternative |
+|------------|-------------------|
+| "Not just X but Y" | "X works, though Y matters more here" |
+| "It's not about X, it's about Y" | "Y matters more than X in this case" |
+| Forced parallel structure | Asymmetric clauses of different lengths |
+| Explicit contrast markers | Juxtaposition (let reader infer contrast) |
+| Binary opposition | Qualification ("X works well, especially when...") |
 
 **Performative Short Sentences — AVOID:**
 
@@ -257,6 +270,29 @@ AI overcorrects for burstiness by inserting artificially punchy fragments:
 **The test:** Read the sentence aloud. Does it sound like you're *saying something* or *writing something*? Technical documentation should sound like the former.
 
 **Human writing is functional.** Sentence length varies because some ideas need more words than others—not because the writer is proving they know how to vary sentence length.
+
+### Reactive vs Proactive Variation (CRITICAL DISTINCTION)
+
+**Human variation is REACTIVE:** Emerges from cognitive processing, emotional engagement, communicative purpose. The sentence is short because the idea is sharp, or the writer needed a breath, or emphasis demanded isolation.
+
+**AI variation is PROACTIVE:** Applied as a surface feature to mimic human patterns. Length varies, but the variation follows predictable rules, lacking the reactive quality of authentic prose.
+
+**The test:** Can you justify each sentence's length by *what it communicates*, not by "I needed variety here"? If the justification is the latter, the variation reads as performative.
+
+### When Short Sentences Earn Their Brevity
+
+| Context | Why It Works |
+|---------|--------------|
+| After complex explanation | Cognitive reset for reader |
+| Emotional peaks | Forces reader pause |
+| Contradiction/surprise | Isolation creates emphasis |
+| Key technical point | Weight through isolation |
+
+| Context | Why It Fails |
+|---------|--------------|
+| Regular alternation (long-short-long) | Mechanical rhythm |
+| Short sentence without semantic weight | Brevity as decoration |
+| Fragment clusters for "drama" | Overuse dilutes impact |
 
 **Hedging Constructions — AVOID (unless genuine uncertainty):**
 
@@ -390,6 +426,37 @@ Modern AI detectors use these metrics. Writing that fails these patterns gets fl
 **"Allows/enables/facilitates" construction:**
 - "This allows users to..." / "This enables the system to..."
 - **Fix:** Just say what happens: "Users can..." / "The system does..."
+
+### Advanced Detection Patterns (2024-2026 Research)
+
+**First-Person Pronoun Scarcity:**
+Research found "I" appeared only 15 times in AI essays vs 523 times in human essays—AI uses first-person ~35x less. Include genuine personal perspective where appropriate.
+
+**Entity Clustering:**
+AI mentions the same entity in tight clusters; humans refer back to concepts with longer gaps. If you mention "the router" five times in two sentences, spread references across paragraphs.
+
+**Balanced Paragraph Lengths:**
+AI balances paragraphs to near-identical lengths. Human writing has naturally uneven paragraphs—some are two sentences, some are eight.
+
+**Missing Epistemic Fingerprint:**
+The practical tell is not "was this AI" but "did a human put their epistemic fingerprint on it?" AI output lacks:
+- Why I'm explaining this
+- What confused me initially
+- What I think about it
+- What I don't know
+- What I'd do next
+
+**Promotional Tone Patterns:**
+Wikipedia editors flag: landscapes always "scenic," views "breathtaking," everything "clean and modern." Sounds like TV commercial transcript.
+
+**Pseudo-Hedging Without Epistemic Content:**
+AI uses hedging language ("it's important to note," "one might consider") without actual epistemic modulation. Real hedging expresses genuine uncertainty about specific claims.
+
+**Rigid Paragraph Formula:**
+AI constructs paragraphs: topic sentence → supporting evidence → summary statement. In a three-sentence AI paragraph, only the middle sentence contains value; first and third are padding.
+
+**Weasel Wording:**
+AI attributes opinions to vague authorities without clear sources. "Experts agree..." "Studies show..." without specifics.
 
 ### Structural Anti-Patterns
 

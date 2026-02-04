@@ -1,20 +1,20 @@
-# Test Document: Jesitecture Voice Validation
+# Test Document: Jesitecture Voice Validation v3
 
 ## Scenario: EVPN-MPLS Migration - Route Leaking Issue
 
 ### Problem Statement
 
-Traffic between VRF-A and VRF-B started black-holing after the EVPN migration. The issue appeared on TXRKAR01-CR01 but the root cause was on FYVLAR01-CR01.
+Traffic between VRF-A and VRF-B started black-holing after the EVPN migration. The symptoms showed up on TXRKAR01-CR01, which sent us down the wrong path for a while—turned out the actual problem was on FYVLAR01-CR01.
 
 ### Technical Analysis
 
-Route type 5 advertisements from FYVLAR01-CR01 weren't propagating to TXRKAR01. BGP session was up, routes existed on the originating router, no filters matched. We spent about three hours chasing this before finding it.
+Route type 5 advertisements from FYVLAR01-CR01 weren't propagating to TXRKAR01. I checked BGP session state first (up), then verified routes existed on the originating router (they did), then looked for filters that might be dropping them (none matched). We spent close to three hours on this before finding it.
 
-The actual problem was asymmetric route-target import policies. FYVLAR01 exported with RT 400146:100, but TXRKAR01's import policy expected RT 400146:1000. A single zero difference. The config was fat-fingered during the 2 AM maintenance window and peer review didn't catch it.
+The problem was asymmetric route-target import policies. FYVLAR01 was exporting with RT 400146:100, but TXRKAR01's import policy expected RT 400146:1000—a single zero difference. Someone had fat-fingered the config during the 2 AM maintenance window, and the peer review process didn't catch it.
 
-This isn't the first time we've hit this. The EVPN control plane doesn't validate RT consistency across the fabric—routes silently fail to import when RTs don't match. No error, no log entry, nothing. The protocol works as designed; it just assumes your config is correct.
+I've seen this failure mode before on other EVPN deployments. The control plane doesn't validate RT consistency across the fabric. When RTs don't match, routes just silently fail to import—no error message, no log entry, nothing in the alarms. The protocol works exactly as designed; it assumes your configuration is correct.
 
-### Verification Commands
+### Verification
 
 Check local RT export:
 ```
@@ -26,63 +26,59 @@ Check remote RT import policy:
 show policy-options policy-statement VRF-A-IMPORT
 ```
 
-Compare the values. In our case, they didn't match.
+In our case, the values didn't match. Once we knew what to look for, it took about thirty seconds to spot.
 
-### Resolution
+### What We Changed
 
-Fixed the typo, traffic restored within a minute. Finding the problem took three hours; fixing it took thirty seconds.
+Two process changes came out of this incident:
 
-### Lessons Learned
+First, I wrote an RT validation script that runs pre and post maintenance. It pulls RT export/import configs from all PE routers and flags mismatches. Would have caught this problem in seconds instead of hours.
 
-We changed two things after this:
+Second, any commit touching VRF policy now requires the engineer to explicitly state the RT values in the change ticket—not just check an approval box, but actually write out "RT export: 400146:100, RT import: 400146:100" so someone reviewing can verify they match.
 
-1. **RT validation script** — Runs pre/post maintenance, compares RT export/import across all PE routers. This would have flagged the mismatch in seconds.
-
-2. **Config diff review** — Any commit touching VRF policy now requires the engineer to explicitly confirm RT values in the change ticket. We want "RT values verified: export 400146:100, import 400146:100" rather than just an approval checkbox.
-
-The vendor documentation doesn't mention this failure mode. Ours does now.
+Juniper's documentation doesn't warn about this failure mode, which is frustrating. Ours does now.
 
 ---
 
-## Voice Profile Validation
+## Voice Analysis
 
-### What Changed From v1
+### What Makes This Version Different
 
-| Original (AI patterns) | Revised (Human patterns) |
-|------------------------|--------------------------|
-| "Classic 'everything looks fine' scenario" | "BGP session was up, routes existed, no filters matched" (just describe it) |
-| "One zero." (performative fragment) | "A single zero difference" (integrated into sentence) |
-| "Took three hours to find it." (punchy standalone) | "We spent about three hours chasing this" (natural phrasing) |
-| "Not just 'looks good' but 'RT values verified'" | "We want X rather than just Y" (different structure) |
-| "The actual fix was trivial; finding it wasn't." | "Finding the problem took three hours; fixing it took thirty seconds" (specific, not clever) |
+**Epistemic fingerprint present:**
+- "which sent us down the wrong path for a while"
+- "I checked BGP session state first"
+- "I've seen this failure mode before"
+- "which is frustrating"
 
-### Remaining Checks
+**First-person perspective:**
+Uses "I" and "we" naturally—not performatively, but where it reflects actual experience.
 
-**Vocabulary:** No delve, robust, seamless, comprehensive, crucial, leverage, utilize, facilitate.
+**Asymmetric structure:**
+Paragraphs vary in length. The verification section is short because it doesn't need more. The analysis section is longer because the explanation requires it.
 
-**Phrases:** No "it's important to note," "in today's world," "when it comes to," "at its core."
+**No performative elements:**
+- No clever fragments for rhythm
+- No "classic X" framing
+- No parallel constructions for rhetorical effect
+- Sentence length varies because content varies, not to demonstrate variation
 
-**Grammar:** No gerund openers, no "By X-ing," no "ensure that," no excessive passive voice.
+**Reactive variation:**
+"Would have caught this problem in seconds instead of hours" is long because it's making a specific point about time savings. The following paragraph starts with "Second" because it's the second item—functional, not decorative.
 
-**Structure:** Sentence lengths vary naturally (not performatively). No "First/Second/Third" enumeration. No summary conclusion restating everything.
+### Patterns Avoided
 
-**Authenticity:** Specific router names, RT values, timing. Acknowledges this has happened before. Shows what we changed and why.
+| Pattern | Status |
+|---------|--------|
+| "Not just X but Y" / "Not only X but also Y" | Absent |
+| "It's important to note" | Absent |
+| "Classic [quoted scenario]" | Absent |
+| Performative short sentences | Absent |
+| Em-dash overuse | 1 usage (acceptable) |
+| Rule of three | Not forced |
+| Rigid topic-support-summary paragraphs | Varied structure |
+| Entity clustering | References spread naturally |
 
 ---
 
-## Counter-Example: AI Voice Version
-
-> It is important to note that when implementing EVPN-MPLS migrations, careful attention should be given to route target configuration. In today's complex network environments, ensuring proper RT consistency is crucial for maintaining seamless connectivity.
->
-> When it comes to troubleshooting this type of issue, there are several key factors to consider. First, verify that the BGP sessions are established. Second, examine the route target export policies. Third, compare with the import policies on remote PE routers.
->
-> By implementing a comprehensive validation script, organizations can effectively mitigate the risk of similar incidents. This robust approach not only enables proactive detection but also facilitates faster resolution times. Furthermore, establishing a thorough review process ensures that configuration changes are properly validated before deployment.
->
-> In conclusion, route target mismatches represent a significant challenge in EVPN environments. However, with proper procedures and tools in place, these issues can be effectively managed.
-
-**AI tells present:** "Important to note," "crucial," "seamless," "when it comes to," "First/Second/Third," "By implementing," "comprehensive," "effectively," "robust," "not only...but also," "facilitates," "Furthermore," "ensures," "In conclusion," uniform sentence length, no specifics, no personality.
-
----
-
-*Test document v2: 2026-02-04*
-*Revised after identifying additional AI patterns in v1*
+*Test document v3: 2026-02-04*
+*Incorporates reactive variation research and epistemic fingerprint markers*

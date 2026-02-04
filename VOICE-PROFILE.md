@@ -201,6 +201,162 @@ Use RFC keywords when precision matters. Apply throughout requirements sections.
 - Use colons for actual lists, not soft introductions
 - Let some sentences just end. Period.
 
+### Grammar Patterns (AI Detection Signals)
+
+**Sentence-Starting Tells — AVOID:**
+
+| Pattern | Example | Why It's AI |
+|---------|---------|-------------|
+| Gerund opener | "**Implementing** this change requires..." | AI starts 3x more sentences with -ing |
+| Naked "This" | "**This** ensures reliability." | AI uses "This" without clear antecedent |
+| "By X-ing" | "**By configuring** the router, we can..." | Formulaic cause-effect construction |
+| "When it comes to" | "**When it comes to** routing..." | Filler phrase, adds nothing |
+| "In order to" | "**In order to** achieve..." | Just use "To achieve..." |
+| "It is [adj] that" | "**It is important that**..." | Weak construction, be direct |
+| "There is/are" | "**There are** several factors..." | Weak opener, name the factors |
+
+**Parallel Construction Overuse — AVOID:**
+
+| Pattern | Example | Problem |
+|---------|---------|---------|
+| "Not only X but also Y" | "Not only improves performance but also reduces cost" | AI uses 5x human rate |
+| "Whether X or Y" | "Whether you're a beginner or expert..." | Marketing-speak feel |
+| "Both X and Y" (repeated) | "Both reliable and scalable, both fast and secure" | Stacking these is AI signature |
+| Triple parallel | "Faster, simpler, and more reliable" | Rule of three overuse |
+
+**Hedging Constructions — AVOID (unless genuine uncertainty):**
+
+| Pattern | Example | Alternative |
+|---------|---------|-------------|
+| "may potentially" | "This may potentially cause..." | "This can cause..." or "This causes..." |
+| "could possibly" | "You could possibly see..." | "You might see..." or state conditions |
+| "it's worth noting" | "It's worth noting that..." | Just state the thing |
+| "it should be mentioned" | "It should be mentioned..." | Just mention it |
+| "generally speaking" | "Generally speaking, this works..." | "This usually works..." |
+| "in most cases" (vague) | "In most cases..." | Specify which cases |
+
+**Passive Voice Overuse — AVOID:**
+
+AI uses passive voice ~40% more than humans in technical writing.
+
+| Passive (AI pattern) | Active (human pattern) |
+|---------------------|------------------------|
+| "The configuration is applied by the system" | "The system applies the configuration" |
+| "It was determined that..." | "We determined..." or "Testing showed..." |
+| "The issue can be resolved by..." | "To resolve this, [do X]" |
+| "Consideration should be given to..." | "Consider..." |
+
+**Exception:** Passive is appropriate when the actor is unknown or irrelevant: "The packet was dropped" (we don't know by what).
+
+**Enumeration Patterns — AVOID:**
+
+| Pattern | Example | Problem |
+|---------|---------|---------|
+| "First... Second... Third..." | Rigid enumeration in prose | Over-structures simple content |
+| "Firstly... Secondly..." | Same, but more formal | Sounds like essay template |
+| "There are three key factors:" | Pre-announcing list length | AI loves pre-announcing |
+| "Let's look at each in turn" | Meta-commentary | Just discuss them |
+
+**DO INSTEAD:** Use natural transitions or just present information without meta-framing.
+
+**Relative Clause Stacking — AVOID:**
+
+AI stacks relative clauses more than humans:
+
+**BAD:** "The router, **which** is located in the data center, **which** was upgraded last month, **that** serves the east region..."
+
+**GOOD:** "The east region router was upgraded last month. It's in the main data center."
+
+**The "Ensure" Construction — AVOID:**
+
+AI overuses "ensure" and "ensure that":
+
+| AI Pattern | Human Pattern |
+|-----------|---------------|
+| "Ensure that the configuration is correct" | "Verify the configuration" or "Check that..." |
+| "This ensures reliability" | "This improves reliability" or explain how |
+| "To ensure proper operation" | "For proper operation" or just describe |
+
+**Sentence Length Uniformity — CRITICAL:**
+
+AI tends toward 15-25 word sentences consistently. Humans vary from 3 to 40+.
+
+**Test your writing:** If most sentences are 15-25 words, artificially break some up and combine others.
+
+### Statistical Detection Markers
+
+Modern AI detectors use these metrics. Writing that fails these patterns gets flagged:
+
+**Perplexity (word predictability):**
+- AI text has LOW perplexity (words are predictable from context)
+- Human text has HIGHER perplexity (more unexpected word choices)
+- **Fix:** Use domain-specific jargon, unexpected synonyms, sentence fragments
+
+**Burstiness (sentence length variation):**
+- AI text has LOW burstiness (uniform sentence lengths)
+- Human text has HIGH burstiness (dramatic length variation)
+- **Fix:** Deliberately vary from 3-word punches to 40+ word complex sentences
+
+**Word frequency distribution:**
+- AI overuses common words (the, is, are, can, will)
+- AI underuses rare/technical words
+- **Fix:** Use precise technical vocabulary, avoid generic verbs
+
+**Repetition patterns:**
+- AI repeats key terms at predictable intervals
+- Humans vary terminology more naturally
+- **Fix:** Use synonyms, pronouns, ellipsis to avoid repetition
+
+### Tonal Consistency Markers
+
+**AI tends toward:**
+- Uniform tone throughout (no shifts)
+- Excessive politeness/hedging
+- Avoiding strong positions
+- Treating all topics with equal weight
+
+**Human writing has:**
+- Tonal shifts (serious → wry → direct)
+- Occasional bluntness
+- Clear opinions with evidence
+- Emphasis on what matters, brevity on what doesn't
+
+### Semantic Coherence Patterns
+
+**AI patterns to avoid:**
+- Perfect topic sentence → support → conclusion in every paragraph
+- Restating the question in the answer
+- Summarizing before being asked
+- Equal coverage of all points regardless of importance
+- Never leaving anything implicit
+
+**Human patterns to include:**
+- Some paragraphs are just development, no topic sentence
+- Assumes reader can infer some connections
+- Spends more time on complex points, less on simple ones
+- May end a section without explicit summary
+- References shared knowledge without explaining
+
+### Additional Word-Level Markers
+
+**Adverb overuse (AI signature):**
+- significantly, effectively, efficiently, ultimately, certainly
+- particularly, specifically, essentially, fundamentally
+- **Fix:** Cut most adverbs. If important, restructure sentence to show rather than tell.
+
+**Adjective stacking (AI signature):**
+- "comprehensive, reliable, and scalable solution"
+- "innovative, cutting-edge, state-of-the-art technology"
+- **Fix:** One precise adjective beats three vague ones.
+
+**Connector overuse (AI signature):**
+- however, therefore, consequently, nevertheless, nonetheless
+- **Fix:** Use sparingly. Often the logic is clear without them.
+
+**"Allows/enables/facilitates" construction:**
+- "This allows users to..." / "This enables the system to..."
+- **Fix:** Just say what happens: "Users can..." / "The system does..."
+
 ### Structural Anti-Patterns
 
 **AVOID these AI-typical structures:**
@@ -498,6 +654,96 @@ Before finalizing any document, ask:
 
 ---
 
+---
+
+## Aspirational Model: Ivan Pepelnjak (ipspace.net)
+
+Identified as a voice model during calibration. Key characteristics to emulate:
+
+### What Makes Pepelnjak's Writing Effective
+
+**Direct opinions:** Doesn't hedge. "This is a bad idea" not "One might consider whether this approach is optimal."
+
+**Experience-backed claims:** "I've seen this fail in production" carries more weight than "This may cause issues."
+
+**Calls out marketing BS:** Directly challenges vendor claims with technical reality. "The vendor says X. Here's why that's misleading..."
+
+**Audience respect:** Assumes technical competence. Doesn't over-explain basics to experts.
+
+**Structured irreverence:** Professional but willing to be blunt about bad designs.
+
+### Pepelnjak Patterns to Adopt
+
+| Pattern | Example |
+|---------|---------|
+| Direct challenge | "That's not how BGP works." |
+| Experience citation | "I've been doing this for 30 years, and..." |
+| Vendor skepticism | "According to the marketing slides... but in reality..." |
+| Simplification | Cuts through complexity to core issue |
+| Teaching through contrast | "Here's what they claim. Here's what actually happens." |
+
+### Pepelnjak Patterns to Moderate
+
+- His blog is more casual than formal DDRs/TABs
+- Some snark appropriate for blog, not for customer-facing docs
+- Adjust irreverence level based on audience
+
+---
+
+## Future Calibration: Sample Collection
+
+To refine this profile further, collect writing samples:
+
+### Minimum (Initial Calibration)
+- 5-10 existing writing samples
+- 500-1,000 total words
+- Mix: 2-3 formal docs, 2-3 casual notes, 1-2 explanatory pieces
+
+### Optimal (Production Calibration)
+- 50-100 samples
+- 10,000-20,000 total words
+- All content types: formal, casual, instructional, analytical, narrative
+- Span 6-12 months of writing
+
+### Most Valuable Sample Types (Priority Order)
+
+1. **Emails** — Most unfiltered natural voice
+2. **Slack/Teams messages** — Casual register, shows personality
+3. **Technical documents you're proud of** — Aspirational voice
+4. **Incident notes or troubleshooting logs** — Under-pressure voice
+5. **Design decision explanations** — Reasoning voice
+
+### Sample Analysis Process
+
+For each sample, note:
+- Sentence length distribution
+- Favorite transitions
+- Signature phrases
+- How you handle uncertainty
+- How you structure explanations
+- Vocabulary patterns
+
+Feed observations back into profile refinement.
+
+---
+
+## Profile Maintenance
+
+### When to Update
+
+- After significant document creation (note what worked/didn't)
+- When AI tells shift (detection methods evolve)
+- After feedback from colleagues on voice consistency
+- Quarterly review for staleness
+
+### Version History
+
+| Version | Date | Changes |
+|---------|------|---------|
+| 1.0 | 2026-02-04 | Initial creation from calibration interview |
+
+---
+
 *Profile Version: 1.0*
 *Created: 2026-02-04*
-*Based on: User calibration interview + anti-AI writing research + Anthropic documentation*
+*Based on: User calibration interview + anti-AI writing research + Anthropic documentation + Ivan Pepelnjak style analysis*
